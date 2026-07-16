@@ -1,23 +1,28 @@
 import { useState, type ReactNode } from 'react'
 import { COLORS } from '../design'
-import { ExportIcon, CheckIcon, CloseIcon } from './Icons'
+import { ExportIcon, CheckIcon } from './Icons'
 
 type Props = {
   getSVG: () => string
 }
 
 export function FunctionPanel({ getSVG }: Props) {
-  const [open, setOpen] = useState(false)
   const [svg, setSvg] = useState('')
+  const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
 
-  const openPanel = () => {
-    setSvg(getSVG())
-    setOpen(true)
+  const ensureSVG = () => {
+    if (!open) {
+      setSvg(getSVG())
+      setOpen(true)
+    } else {
+      setOpen(false)
+    }
   }
 
   const download = () => {
-    const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }))
+    const data = svg || getSVG()
+    const url = URL.createObjectURL(new Blob([data], { type: 'image/svg+xml' }))
     const a = document.createElement('a')
     a.href = url
     a.download = 'hydrosense-screen.svg'
@@ -26,8 +31,9 @@ export function FunctionPanel({ getSVG }: Props) {
   }
 
   const copyText = async () => {
+    const data = svg || getSVG()
     try {
-      await navigator.clipboard.writeText(svg)
+      await navigator.clipboard.writeText(data)
       setCopied(true)
       setTimeout(() => setCopied(false), 1800)
     } catch {
@@ -35,7 +41,7 @@ export function FunctionPanel({ getSVG }: Props) {
     }
   }
 
-  const item = (icon: ReactNode, title: string, desc: string, onClick: () => void, primary = false) => (
+  const card = (icon: ReactNode, title: string, desc: string, onClick: () => void, primary = false) => (
     <button
       onClick={onClick}
       style={{
@@ -75,58 +81,36 @@ export function FunctionPanel({ getSVG }: Props) {
   )
 
   return (
-    <>
-      <button
-        onClick={openPanel}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: '10px 16px',
-          borderRadius: 999,
-          border: 'none',
-          background: COLORS.text,
-          color: '#fff',
-          fontSize: 13,
-          fontWeight: 700,
-          fontFamily: 'inherit',
-          cursor: 'pointer',
-          boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
-        }}
-      >
-        <ExportIcon size={16} color="#fff" />
-        Functions
-      </button>
+    <div
+      style={{
+        width: 320,
+        maxWidth: '32vw',
+        alignSelf: 'stretch',
+        maxHeight: 844,
+        background: COLORS.white,
+        borderRadius: 28,
+        padding: 18,
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.12), 0 6px 18px rgba(0,0,0,0.08)',
+        overflow: 'hidden',
+      }}
+    >
+      <div style={{ fontSize: 18, fontWeight: 700, color: COLORS.text, marginBottom: 4 }}>Export Functions</div>
+      <div style={{ fontSize: 12.5, color: COLORS.textSecondary, marginBottom: 14 }}>Send this screen to Figma</div>
 
-      {open && (
-        <div
-          onClick={() => setOpen(false)}
-          style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 80 }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{ width: '90%', maxWidth: 360, maxHeight: '88%', background: COLORS.white, borderRadius: 22, padding: 16, display: 'flex', flexDirection: 'column', boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <div style={{ fontSize: 17, fontWeight: 700, color: COLORS.text }}>Export Functions</div>
-              <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}>
-                <CloseIcon size={22} color={COLORS.textSecondary} />
-              </button>
-            </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {card(<ExportIcon size={18} />, 'Download .svg', 'Save file to drag into Figma', download, true)}
+        {card(<CheckIcon size={18} />, copied ? 'Copied!' : 'Copy SVG code', 'Copy vector markup to clipboard', copyText)}
+      </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {item(<ExportIcon size={18} />, 'Download .svg', 'Save file to drag into Figma', download, true)}
-              {item(<CheckIcon size={18} />, copied ? 'Copied!' : 'Copy SVG code', 'Copy vector markup to clipboard', copyText)}
-            </div>
+      <div style={{ marginTop: 14, background: COLORS.bg, borderRadius: 14, padding: 12, fontSize: 12.5, color: COLORS.textSecondary, lineHeight: 1.5 }}>
+        Drag the downloaded <b>hydrosense-screen.svg</b> onto your Figma canvas. Every card, ring and text becomes an editable, movable layer — with the same shadows as on screen.
+      </div>
 
-            <div style={{ marginTop: 14, background: COLORS.bg, borderRadius: 14, padding: 12, fontSize: 12.5, color: COLORS.textSecondary, lineHeight: 1.5 }}>
-              Drag the downloaded <b>hydrosense-screen.svg</b> onto your Figma canvas. Every card, ring and text becomes an editable, movable layer — with the same shadows as on screen.
-            </div>
-
-            <div style={{ flex: 1, overflow: 'auto', background: COLORS.bg, borderRadius: 14, padding: 10, marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }} dangerouslySetInnerHTML={{ __html: svg }} />
-          </div>
-        </div>
-      )}
-    </>
+      <div style={{ flex: 1, overflow: 'auto', background: COLORS.bg, borderRadius: 14, padding: 10, marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 120 }}>
+        <div style={{ transform: 'scale(0.62)', transformOrigin: 'center', pointerEvents: 'none' }} dangerouslySetInnerHTML={{ __html: svg || getSVG() }} />
+      </div>
+    </div>
   )
 }

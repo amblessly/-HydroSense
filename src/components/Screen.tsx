@@ -50,6 +50,8 @@ export function Screen({ children, getSVG }: ScreenProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        gap: 24,
+        padding: 24,
         overflow: 'hidden',
       }}
     >
@@ -100,13 +102,9 @@ export function Screen({ children, getSVG }: ScreenProps) {
             </div>
           </div>
         </div>
-
-        {getSVG && (
-          <div style={{ position: 'absolute', right: 14, bottom: 14, zIndex: 60 }}>
-            <FunctionPanel getSVG={getSVG} />
-          </div>
-        )}
       </div>
+
+      {getSVG && <FunctionPanel getSVG={getSVG} />}
     </div>
   )
 }
