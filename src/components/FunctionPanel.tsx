@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { COLORS } from '../design'
 import { ExportIcon, CheckIcon, CloseIcon } from './Icons'
 
@@ -34,7 +35,7 @@ export function FunctionPanel({ getSVG }: Props) {
     }
   }
 
-  const item = (icon: React.ReactNode, title: string, desc: string, onClick: () => void, primary = false) => (
+  const item = (icon: ReactNode, title: string, desc: string, onClick: () => void, primary = false) => (
     <button
       onClick={onClick}
       style={{
