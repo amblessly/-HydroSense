@@ -7,12 +7,12 @@ import {
   SunIcon, ScanIcon, PrinterIcon, ExportIcon, ChevronRightIcon,
 } from '../components/Icons'
 
-type Props = { onStartScan: () => void; onBack: () => void; screenName?: string }
+type Props = { onStartScan: () => void; onBack: () => void; screenName?: string; getSVG?: () => string }
 
-export function Results({ onStartScan, onBack, screenName }: Props) {
+export function Results({ onStartScan, onBack, screenName, getSVG }: Props) {
   const score = useCountUp(84, 1000)
   return (
-    <Screen screenName={screenName}>
+    <Screen screenName={screenName} getSVG={getSVG}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
         <div>
           <div style={{ fontSize: 20, fontWeight: 700, color: COLORS.text }}>Results</div>

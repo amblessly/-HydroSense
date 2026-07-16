@@ -19,14 +19,13 @@ function useFitScale() {
 
 type ScreenProps = {
   children: ReactNode
-  screenName?: string
+  getSVG?: () => string
 }
 
-export function Screen({ children, screenName = 'screen' }: ScreenProps) {
+export function Screen({ children, getSVG }: ScreenProps) {
   const scale = useFitScale()
   const contentRef = useRef<HTMLDivElement>(null)
   const [innerScale, setInnerScale] = useState(1)
-  const captureId = `capture-${screenName}`
 
   useLayoutEffect(() => {
     const el = contentRef.current
@@ -67,7 +66,6 @@ export function Screen({ children, screenName = 'screen' }: ScreenProps) {
         }}
       >
         <div
-          id={captureId}
           style={{
             width: '100%',
             height: '100%',
@@ -103,9 +101,11 @@ export function Screen({ children, screenName = 'screen' }: ScreenProps) {
           </div>
         </div>
 
-        <div style={{ position: 'absolute', right: 14, bottom: 14, zIndex: 60 }}>
-          <CopyToFigma targetId={captureId} />
-        </div>
+        {getSVG && (
+          <div style={{ position: 'absolute', right: 14, bottom: 14, zIndex: 60 }}>
+            <CopyToFigma getSVG={getSVG} />
+          </div>
+        )}
       </div>
     </div>
   )

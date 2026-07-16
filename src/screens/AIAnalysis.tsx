@@ -5,7 +5,7 @@ import { COLORS, SHADOW } from '../design'
 import { ProgressRing } from '../components/ProgressRing'
 import { DropIcon, BoltIcon, SunIcon, HeartIcon, SparkleIcon, CheckIcon } from '../components/Icons'
 
-type Props = { onComplete: () => void; screenName?: string }
+type Props = { onComplete: () => void; screenName?: string; getSVG?: () => string }
 
 const STEPS = [
   { icon: <DropIcon size={18} />, label: 'Reading hydration markers' },
@@ -15,7 +15,7 @@ const STEPS = [
   { icon: <SparkleIcon size={18} />, label: 'Generating AI recommendations' },
 ]
 
-export function AIAnalysis({ onComplete, screenName }: Props) {
+export function AIAnalysis({ onComplete, screenName, getSVG }: Props) {
   const [progress, setProgress] = useState(0)
   const [done, setDone] = useState(0)
 
@@ -45,7 +45,7 @@ export function AIAnalysis({ onComplete, screenName }: Props) {
   const remaining = Math.max(0, Math.ceil((100 - progress) * 0.1))
 
   return (
-    <Screen screenName={screenName}>
+    <Screen screenName={screenName} getSVG={getSVG}>
       <div style={{ marginBottom: 14 }}>
         <div style={{ fontSize: 20, fontWeight: 700, color: COLORS.text }}>AI Analysis</div>
         <div style={{ fontSize: 13, color: COLORS.textSecondary, marginTop: 2 }}>Processing biometric signals</div>

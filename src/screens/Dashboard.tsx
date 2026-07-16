@@ -8,9 +8,9 @@ import {
   SunIcon, DeviceIcon, ScanIcon, LeafIcon,
 } from '../components/Icons'
 
-type Props = { onStartScan: () => void; screenName?: string }
+type Props = { onStartScan: () => void; screenName?: string; getSVG?: () => string }
 
-export function Dashboard({ onStartScan, screenName }: Props) {
+export function Dashboard({ onStartScan, screenName, getSVG }: Props) {
   const [now, setNow] = useState(new Date())
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 1000)
@@ -21,7 +21,7 @@ export function Dashboard({ onStartScan, screenName }: Props) {
   const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
 
   return (
-    <Screen screenName={screenName}>
+    <Screen screenName={screenName} getSVG={getSVG}>
       <Header subtitle={`${date} · ${time}`} />
 
       <Card padding={22} style={{ marginBottom: 14 }}>

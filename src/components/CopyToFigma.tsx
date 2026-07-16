@@ -1,43 +1,45 @@
 import { useState } from 'react'
-import { toPng } from 'html-to-image'
 import { COLORS } from '../design'
 import { ExportIcon, CheckIcon } from './Icons'
 
-type Props = { targetId: string }
+type Props = {
+  getSVG: () => string
+  label?: string
+}
 
-export function CopyToFigma({ targetId }: Props) {
+async function copySVG(svg: string) {
+  // Prefer clipboard with image/svg+xml (Figma reads this as editable vectors)
+  try {
+    if (navigator.clipboard && typeof ClipboardItem !== 'undefined' && 'write' in navigator.clipboard) {
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/svg+xml': new Blob([svg], { type: 'image/svg+xml' }) }),
+      ])
+      return true
+    }
+  } catch {
+    /* fall through */
+  }
+  // Fallback: plain text svg
+  try {
+    await navigator.clipboard.writeText(svg)
+    return true
+  } catch {
+    return false
+  }
+}
+
+export function CopyToFigma({ getSVG, label = 'Copy to Figma' }: Props) {
   const [state, setState] = useState<'idle' | 'working' | 'done' | 'error'>('idle')
 
   const handleCopy = async () => {
-    const node = document.getElementById(targetId)
-    if (!node) return
     setState('working')
-    try {
-      const dataUrl = await toPng(node, {
-        pixelRatio: 2,
-        cacheBust: true,
-        backgroundColor: '#FFFFFF',
-        skipFonts: false,
-      })
-      const blob = await (await fetch(dataUrl)).blob()
-      if (navigator.clipboard && 'write' in navigator.clipboard && typeof ClipboardItem !== 'undefined') {
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-      } else {
-        // fallback: open image in new tab for manual copy
-        const w = window.open('')
-        if (w) w.document.write(`<img src="${dataUrl}" />`)
-      }
-      setState('done')
-      setTimeout(() => setState('idle'), 2000)
-    } catch (e) {
-      console.error(e)
-      setState('error')
-      setTimeout(() => setState('idle'), 2000)
-    }
+    const ok = await copySVG(getSVG())
+    setState(ok ? 'done' : 'error')
+    setTimeout(() => setState('idle'), 2000)
   }
 
-  const label =
-    state === 'working' ? 'Capturing…' : state === 'done' ? 'Copied!' : state === 'error' ? 'Failed' : 'Copy to Figma'
+  const text =
+    state === 'working' ? 'Capturing…' : state === 'done' ? 'Copied!' : state === 'error' ? 'Failed' : label
 
   return (
     <button
@@ -59,7 +61,7 @@ export function CopyToFigma({ targetId }: Props) {
       }}
     >
       {state === 'done' ? <CheckIcon size={16} color="#fff" /> : <ExportIcon size={16} color="#fff" />}
-      {label}
+      {text}
     </button>
   )
 }
