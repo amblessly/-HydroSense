@@ -4,11 +4,11 @@ import { Button, StepIndicator, Card } from '../components/ui'
 import { COLORS, SHADOW } from '../design'
 import { FlaskIcon, CheckIcon, ScanIcon } from '../components/Icons'
 
-type Props = { onContinue: () => void }
+type Props = { onContinue: () => void; screenName?: string }
 
 type Phase = 'idle' | 'detecting' | 'detected'
 
-export function SampleCollection({ onContinue }: Props) {
+export function SampleCollection({ onContinue, screenName }: Props) {
   const [phase, setPhase] = useState<Phase>('idle')
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function SampleCollection({ onContinue }: Props) {
   }, [phase])
 
   return (
-    <Screen>
+    <Screen screenName={screenName}>
       <div style={{ marginBottom: 14 }}>
         <div style={{ fontSize: 20, fontWeight: 700, color: COLORS.text }}>Sample Collection</div>
         <div style={{ fontSize: 13, color: COLORS.textSecondary, marginTop: 2 }}>Insert sweat or saliva strip</div>

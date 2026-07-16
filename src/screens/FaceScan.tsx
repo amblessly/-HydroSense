@@ -5,9 +5,9 @@ import { COLORS, SHADOW } from '../design'
 import { ProgressRing } from '../components/ProgressRing'
 import { CloseIcon, ThermometerIcon, HeartIcon, WaveIcon, SparkleIcon } from '../components/Icons'
 
-type Props = { onCancel: () => void; onComplete: () => void }
+type Props = { onCancel: () => void; onComplete: () => void; screenName?: string }
 
-export function FaceScan({ onCancel, onComplete }: Props) {
+export function FaceScan({ onCancel, onComplete, screenName }: Props) {
   const [progress, setProgress] = useState(0)
   const [bpm, setBpm] = useState(72)
   const [resp, setResp] = useState(15)
@@ -31,7 +31,7 @@ export function FaceScan({ onCancel, onComplete }: Props) {
   }, [progress, onComplete])
 
   return (
-    <Screen>
+    <Screen screenName={screenName}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
         <div>
           <div style={{ fontSize: 20, fontWeight: 700, color: COLORS.text }}>Face Scan</div>

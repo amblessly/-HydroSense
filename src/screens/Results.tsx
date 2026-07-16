@@ -7,12 +7,12 @@ import {
   SunIcon, ScanIcon, PrinterIcon, ExportIcon, ChevronRightIcon,
 } from '../components/Icons'
 
-type Props = { onStartScan: () => void; onBack: () => void }
+type Props = { onStartScan: () => void; onBack: () => void; screenName?: string }
 
-export function Results({ onStartScan, onBack }: Props) {
+export function Results({ onStartScan, onBack, screenName }: Props) {
   const score = useCountUp(84, 1000)
   return (
-    <Screen>
+    <Screen screenName={screenName}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
         <div>
           <div style={{ fontSize: 20, fontWeight: 700, color: COLORS.text }}>Results</div>

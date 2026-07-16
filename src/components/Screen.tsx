@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { COLORS } from '../design'
+import { CopyToFigma } from './CopyToFigma'
 
 function useFitScale() {
   const [scale, setScale] = useState(1)
@@ -18,12 +19,14 @@ function useFitScale() {
 
 type ScreenProps = {
   children: ReactNode
+  screenName?: string
 }
 
-export function Screen({ children }: ScreenProps) {
+export function Screen({ children, screenName = 'screen' }: ScreenProps) {
   const scale = useFitScale()
   const contentRef = useRef<HTMLDivElement>(null)
   const [innerScale, setInnerScale] = useState(1)
+  const captureId = `capture-${screenName}`
 
   useLayoutEffect(() => {
     const el = contentRef.current
@@ -60,9 +63,11 @@ export function Screen({ children }: ScreenProps) {
           transform: `scale(${scale})`,
           transformOrigin: 'center',
           flexShrink: 0,
+          position: 'relative',
         }}
       >
         <div
+          id={captureId}
           style={{
             width: '100%',
             height: '100%',
@@ -96,6 +101,10 @@ export function Screen({ children }: ScreenProps) {
               {children}
             </div>
           </div>
+        </div>
+
+        <div style={{ position: 'absolute', right: 14, bottom: 14, zIndex: 60 }}>
+          <CopyToFigma targetId={captureId} />
         </div>
       </div>
     </div>

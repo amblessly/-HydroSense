@@ -14,15 +14,15 @@ export default function App() {
 
   switch (screen) {
     case 'face':
-      return <FaceScan onCancel={() => go('dashboard')} onComplete={() => go('sample')} />
+      return <FaceScan screenName="face" onCancel={() => go('dashboard')} onComplete={() => go('sample')} />
     case 'sample':
-      return <SampleCollection onContinue={() => go('analysis')} />
+      return <SampleCollection screenName="sample" onContinue={() => go('analysis')} />
     case 'analysis':
-      return <AIAnalysis onComplete={() => go('results')} />
+      return <AIAnalysis screenName="analysis" onComplete={() => go('results')} />
     case 'results':
-      return <Results onStartScan={() => go('face')} onBack={() => go('dashboard')} />
+      return <Results screenName="results" onStartScan={() => go('face')} onBack={() => go('dashboard')} />
     case 'dashboard':
     default:
-      return <Dashboard onStartScan={() => go('face')} />
+      return <Dashboard screenName="dashboard" onStartScan={() => go('face')} />
   }
 }
