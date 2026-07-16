@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { COLORS } from '../design'
-import { CopyToFigma } from './CopyToFigma'
+import { FunctionPanel } from './FunctionPanel'
 
 function useFitScale() {
   const [scale, setScale] = useState(1)
@@ -103,7 +103,7 @@ export function Screen({ children, getSVG }: ScreenProps) {
 
         {getSVG && (
           <div style={{ position: 'absolute', right: 14, bottom: 14, zIndex: 60 }}>
-            <CopyToFigma getSVG={getSVG} />
+            <FunctionPanel getSVG={getSVG} />
           </div>
         )}
       </div>

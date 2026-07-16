@@ -103,7 +103,7 @@ export function dashboardSVG(): string {
   y += 56 + 16
 
   // start button
-  s += svgRoundRect(22, y, ART_W - 44, 54, 16, C.blue)
+  s += svgRoundRect(22, y, ART_W - 44, 54, 16, C.blue, '', 1, 'sh-blue')
   s += svgText(ART_W / 2, y + 34, 'Start New Scan', { size: 17, weight: 700, fill: C.white, anchor: 'middle' })
   return svgFrame(s)
 }
@@ -175,7 +175,7 @@ export function sampleSVG(): string {
   s += svgText(22 + 66, stY + 46, 'Sweat strip registered · ready to analyze', { size: 12.5, weight: 400, fill: C.textSecondary })
   // continue button
   const btnY = stY + 64 + 16
-  s += svgRoundRect(22, btnY, ART_W - 44, 54, 16, C.blue)
+  s += svgRoundRect(22, btnY, ART_W - 44, 54, 16, C.blue, '', 1, 'sh-blue')
   s += svgText(ART_W / 2, btnY + 34, 'Continue', { size: 17, weight: 700, fill: C.white, anchor: 'middle' })
   const stepY = btnY + 70
   s += svgRoundRect(ART_W / 2 - 30, stepY, 6, 6, 3, C.textTertiary)
@@ -260,7 +260,7 @@ export function resultsSVG(): string {
   s += svgText(ART_W - 38, y + 40, '89', { size: 26, weight: 800, fill: C.blue, anchor: 'end' })
   y += 64 + 16
   // buttons
-  s += svgRoundRect(22, y, ART_W - 44, 54, 16, C.blue)
+  s += svgRoundRect(22, y, ART_W - 44, 54, 16, C.blue, '', 1, 'sh-blue')
   s += svgText(ART_W / 2, y + 34, 'Start New Scan', { size: 17, weight: 700, fill: C.white, anchor: 'middle' })
   y += 54 + 10
   const bw = (ART_W - 44 - 12) / 2

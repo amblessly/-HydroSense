@@ -84,15 +84,32 @@ export function svgRing(cx: number, cy: number, r: number, progress: number, col
   )
 }
 
-export function svgCard(x: number, y: number, w: number, h: number, opts: { rx?: number; fill?: string } = {}) {
-  const { rx = 22, fill = C.white } = opts
-  return svgRect(x, y, w, h, { rx, fill })
+export function svgCard(x: number, y: number, w: number, h: number, opts: { rx?: number; fill?: string; shadow?: string } = {}) {
+  const { rx = 22, fill = C.white, shadow } = opts
+  return svgRoundRect(x, y, w, h, rx, fill, '', 1, shadow ?? 'sh-card')
 }
 
-export function svgRoundRect(x: number, y: number, w: number, h: number, rx: number, fill: string, stroke = '', sw = 1) {
-  return svgRect(x, y, w, h, { rx, fill, stroke, strokeWidth: sw })
+export function svgRoundRect(x: number, y: number, w: number, h: number, rx: number, fill: string, stroke = '', sw = 1, shadow?: string) {
+  const filter = shadow ? ` filter="url(#${shadow})"` : ''
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}"${stroke ? ` stroke="${stroke}" stroke-width="${sw}"` : ''}${filter} />`
 }
 
 export function svgFrame(inner: string): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${ART_W}" height="${ART_H}" viewBox="0 0 ${ART_W} ${ART_H}">${inner}</svg>`
+  const defs = `
+  <defs>
+    <filter id="sh-card" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#1C1C1E" flood-opacity="0.08" />
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1C1C1E" flood-opacity="0.06" />
+    </filter>
+    <filter id="sh-blue" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#007AFF" flood-opacity="0.28" />
+    </filter>
+    <filter id="sh-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#1C1C1E" flood-opacity="0.05" />
+    </filter>
+    <filter id="sh-btn" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#1C1C1E" flood-opacity="0.10" />
+    </filter>
+  </defs>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${ART_W}" height="${ART_H}" viewBox="0 0 ${ART_W} ${ART_H}">${defs}${inner}</svg>`
 }
