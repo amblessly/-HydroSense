@@ -126,9 +126,9 @@ export function faceScanSVG(): string {
   const vitals = [['72', 'BPM'], ['15', 'Resp/min'], ['36.4', 'Skin °C']]
   vitals.forEach((v, i) => {
     const cx = 22 + 12 + i * (chipW + 12)
-    s += svgRoundRect(cx, chipY, chipW, 50, 14, 'rgba(28,28,30,0.45)')
+    s += svgRoundRect(cx, chipY, chipW, 50, 14, '#1C1C1E')
     s += svgText(cx + chipW / 2, chipY + 22, v[0], { size: 16, weight: 700, fill: C.white, anchor: 'middle' })
-    s += svgText(cx + chipW / 2, chipY + 40, v[1], { size: 10.5, weight: 600, fill: 'rgba(255,255,255,0.7)', anchor: 'middle' })
+    s += svgText(cx + chipW / 2, chipY + 40, v[1], { size: 10.5, weight: 600, fill: '#FFFFFF', anchor: 'middle' })
   })
   // progress ring
   const ringY = camY + camH + 50
