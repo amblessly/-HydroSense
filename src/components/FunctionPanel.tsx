@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { COLORS } from '../design'
 import { ExportIcon, CheckIcon, CloseIcon } from './Icons'
 
