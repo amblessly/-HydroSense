@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
-import { toSvg } from 'html-to-image'
 import { COLORS } from '../design'
 import { FunctionPanel } from './FunctionPanel'
 
@@ -36,17 +35,9 @@ export function Screen({ children, getSVG, scroll = true, topInset = 0, phoneWid
   const frameRef = useRef<HTMLDivElement>(null)
 
   const capture = useCallback(async () => {
-    if (frameRef.current) {
-      try {
-        const url = await toSvg(frameRef.current, { cacheBust: true, pixelRatio: 2 })
-        const comma = url.indexOf(',')
-        const meta = url.slice(0, comma)
-        const data = url.slice(comma + 1)
-        return meta.includes('base64') ? atob(data) : decodeURIComponent(data)
-      } catch {
-        /* fall back to generator */
-      }
-    }
+    // Export the clean vector SVG generator so the result is importable/pasteable
+    // into Figma. html-to-image produces a <foreignObject> SVG which Figma cannot
+    // render (it shows up blank), so we never use it for the Figma export.
     return getSVG ? getSVG() : ''
   }, [getSVG])
 

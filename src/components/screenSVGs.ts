@@ -92,7 +92,7 @@ export function dashboardSVG(): string {
   const defs = `<defs>
     <linearGradient id="grad-blue" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${C.blueSoft}"/><stop offset="1" stop-color="${C.blue}"/></linearGradient>
     <clipPath id="scr"><rect x="0" y="0" width="${W}" height="${H}" rx="38"/></clipPath>
-    <filter id="sh-card" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#10131A" flood-opacity="0.08"/><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#10131A" flood-opacity="0.06"/></filter>
+    <filter id="sh-card" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#10131A" flood-opacity="0.12"/></filter>
     <filter id="sh-blue" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0A84FF" flood-opacity="0.30"/></filter>
   </defs>`
   let s = ''
@@ -179,7 +179,7 @@ export function detailedDashboardSVG(width = 420): string {
   const defs = `<defs>
     <linearGradient id="grad-blue" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${C.blueSoft}"/><stop offset="1" stop-color="${C.blue}"/></linearGradient>
     <clipPath id="scr2"><rect x="0" y="0" width="${W}" height="1400" rx="38"/></clipPath>
-    <filter id="sh-card" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#10131A" flood-opacity="0.08"/><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#10131A" flood-opacity="0.06"/></filter>
+    <filter id="sh-card" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#10131A" flood-opacity="0.12"/></filter>
     <filter id="sh-blue" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0A84FF" flood-opacity="0.30"/></filter>
   </defs>`
   let s = ''

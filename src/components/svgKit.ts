@@ -98,8 +98,7 @@ export function svgFrame(inner: string): string {
   const defs = `
   <defs>
     <filter id="sh-card" x="-20%" y="-20%" width="140%" height="160%">
-      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#1C1C1E" flood-opacity="0.08" />
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1C1C1E" flood-opacity="0.06" />
+      <feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#1C1C1E" flood-opacity="0.12" />
     </filter>
     <filter id="sh-blue" x="-40%" y="-40%" width="180%" height="180%">
       <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#007AFF" flood-opacity="0.28" />

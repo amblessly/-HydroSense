@@ -38,7 +38,17 @@ export function FunctionPanel({ capture }: Props) {
     const data = svg || (await capture())
     if (!data) return
     try {
-      await navigator.clipboard.writeText(data)
+      // Figma reads SVG from the clipboard via the image/svg+xml MIME type.
+      // Plain text/plain is ignored on paste, so we write both.
+      if (typeof ClipboardItem !== 'undefined' && navigator.clipboard && 'write' in navigator.clipboard) {
+        const item = new ClipboardItem({
+          'image/svg+xml': new Blob([data], { type: 'image/svg+xml' }),
+          'text/plain': new Blob([data], { type: 'text/plain' }),
+        })
+        await navigator.clipboard.write([item])
+      } else {
+        await navigator.clipboard.writeText(data)
+      }
       setCopied(true)
       setTimeout(() => setCopied(false), 1800)
     } catch {
